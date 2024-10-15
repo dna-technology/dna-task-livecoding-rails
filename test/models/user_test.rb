@@ -26,7 +26,7 @@ class UserTest < ActiveSupport::TestCase
     assert user.save
   end
 
-  test "should create and save user with a random UUID as userId" do 
+  test "should create and save user with a random UUID as userId" do
     user = User.create_with_uuid_and_account fullName: "TESTNAME", merchantId: @merchant.merchantId, email: "a@a"
     assert user.persisted?
     assert_equal 36, user.userId.length
