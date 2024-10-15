@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  paymentId: MyString
+  user: one
+  merchant: one
+  amount: 1.5
+
+two:
+  paymentId: MyString
+  user: two
+  merchant: two
+  amount: 1.5
