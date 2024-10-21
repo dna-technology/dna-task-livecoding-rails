@@ -7,29 +7,27 @@ class Payment < ApplicationRecord
 
   def self.create_with_uuid(attributes)
     payment = nil
-    Payment.transaction do
-      merchantId = attributes.delete(:merchantId)
-      merchant = Merchant.find_by(merchantId: merchantId)
+    merchantId = attributes.delete(:merchantId)
+    merchant = Merchant.find_by(merchantId: merchantId)
 
-      userId = attributes.delete(:userId)
-      user = User.find_by(userId: userId)
+    userId = attributes.delete(:userId)
+    user = User.find_by(userId: userId)
 
-      return nil unless merchant
-      return nil unless user
+    return nil unless merchant
+    return nil unless user
 
-      account = user.account
-      return nil unless account
+    account = user.account
+    return nil unless account
 
-      amount = attributes[:amount].to_f
-      raise InsufficientFundsError unless account.balance >= amount
-      account.balance -= amount
-      account.save!
+    amount = attributes[:amount].to_f
+    raise InsufficientFundsError unless account.balance >= amount
+    account.balance -= amount
+    account.save!
 
-      payment = merchant.payments.build(attributes.merge(user_id: user.id))
-      payment.paymentId = SecureRandom.uuid
+    payment = merchant.payments.build(attributes.merge(user_id: user.id))
+    payment.paymentId = SecureRandom.uuid
 
-      payment.save!
-    end
+    payment.save!
     payment
   end
 
