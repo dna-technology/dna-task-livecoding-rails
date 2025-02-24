@@ -5,7 +5,7 @@
 # docker run -d --name my-app-dev -p 3000:3000 my-app-dev
 
 # Make sure RUBY_VERSION matches the Ruby version in .ruby-version
-ARG RUBY_VERSION=3.1.6
+ARG RUBY_VERSION=3.2.7
 FROM docker.io/library/ruby:$RUBY_VERSION-slim AS base
 
 # Rails app lives here
@@ -13,7 +13,7 @@ WORKDIR /rails
 
 # Install base packages
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl libjemalloc2 libvips sqlite3 && \
+    apt-get install --no-install-recommends -y curl libjemalloc2 libvips sqlite3 libyaml-dev && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Set development environment
