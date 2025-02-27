@@ -23,6 +23,6 @@ class User < ApplicationRecord
   end
 
   def as_json(options = {})
-    super(options.merge(except: [:id, :created_at, :updated_at, :merchant_id])).merge(merchantId: merchant.merchantId)
+    super(options.merge(except: [ :id, :created_at, :updated_at, :merchant_id ])).merge(merchantId: merchant.merchantId)
   end
 end
