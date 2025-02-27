@@ -2,12 +2,12 @@ class Merchant < ApplicationRecord
   has_many :users
   has_many :payments
 
-  validates :merchantId, presence: true
+  validates :merchant_id, presence: true
   validates :name, presence: true
 
   def self.create_with_uuid(attributes)
     merchant = new(attributes)
-    merchant.merchantId = SecureRandom.uuid
+    merchant.merchant_id = SecureRandom.uuid
     merchant.save!
     merchant
   end

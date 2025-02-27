@@ -20,6 +20,6 @@ class PaymentsController < ApplicationController
   private
 
   def payment_params
-    params.permit(:amount, :userId, :merchantId)
+    params.permit(:amount, :user_id, :merchant_id)
   end
 end
