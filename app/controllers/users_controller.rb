@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   skip_before_action :verify_authenticity_token
+
   def create
     @user = User.create_with_uuid_and_account(user_params)
 
@@ -11,7 +12,8 @@ class UsersController < ApplicationController
   end
 
   private
-    def user_params
-        params.permit(:fullName, :email, :merchantId)
-    end
+
+  def user_params
+    params.permit(:full_name, :email, :merchant_id)
+  end
 end

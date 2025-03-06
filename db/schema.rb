@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_09_120103) do
+ActiveRecord::Schema[7.2].define(version: 2025_02_27_101358) do
   create_table "accounts", force: :cascade do |t|
-    t.string "accountId"
+    t.string "account_id"
     t.float "balance"
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
@@ -21,14 +21,14 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_09_120103) do
   end
 
   create_table "merchants", force: :cascade do |t|
-    t.string "merchantId"
+    t.string "merchant_id"
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "payments", force: :cascade do |t|
-    t.string "paymentId"
+    t.string "payment_id"
     t.integer "user_id", null: false
     t.integer "merchant_id", null: false
     t.float "amount"
@@ -39,8 +39,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_09_120103) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "userId"
-    t.string "fullName"
+    t.string "user_id"
+    t.string "full_name"
     t.string "email"
     t.integer "merchant_id", null: false
     t.datetime "created_at", null: false

@@ -1,5 +1,6 @@
 class MerchantsController < ApplicationController
   skip_before_action :verify_authenticity_token
+
   def create
     @merchant = Merchant.create_with_uuid(merchant_params)
 
@@ -11,7 +12,8 @@ class MerchantsController < ApplicationController
   end
 
   private
-    def merchant_params
-        params.permit(:name)
-    end
+
+  def merchant_params
+    params.permit(:name)
+  end
 end

@@ -1,11 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  accountId: MyString
+  account_id: MyString
   balance: 1.5
   user: one
 
 two:
-  accountId: MyString
+  account_id: MyString
   balance: 1.5
   user: two

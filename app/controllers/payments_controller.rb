@@ -1,5 +1,6 @@
 class PaymentsController < ApplicationController
   skip_before_action :verify_authenticity_token
+
   def create
     begin
       @payment = Payment.create_with_uuid(payment_params)
@@ -17,7 +18,8 @@ class PaymentsController < ApplicationController
   end
 
   private
-    def payment_params
-        params.permit(:amount, :userId, :merchantId)
-    end
+
+  def payment_params
+    params.permit(:amount, :user_id, :merchant_id)
+  end
 end
