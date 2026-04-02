@@ -2,9 +2,9 @@ class MerchantsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def create
-    @merchant = Merchant.create_with_uuid(merchant_params)
+    @merchant = Merchant.new(merchant_params)
 
-    if @merchant
+    if @merchant.save
       render json: @merchant.as_json
     else
       head :unprocessable_entity

@@ -31,7 +31,4 @@ class Payment < ApplicationRecord
     payment
   end
 
-  def as_json(options = {})
-    super(options.merge(except: [ :id, :created_at, :updated_at, :merchant_id ])).merge(merchant_id: merchant.merchant_id, user_id: user.user_id)
-  end
 end

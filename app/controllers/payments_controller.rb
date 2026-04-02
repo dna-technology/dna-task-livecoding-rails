@@ -10,7 +10,7 @@ class PaymentsController < ApplicationController
       }, status: :bad_request
     else
       if @payment
-        render json: @payment.as_json
+        render json: PaymentSerializer.new(@payment)
       else
         head :unprocessable_entity
       end
