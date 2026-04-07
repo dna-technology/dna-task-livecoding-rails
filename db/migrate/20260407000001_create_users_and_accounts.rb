@@ -8,7 +8,7 @@ class CreateUsersAndAccounts < ActiveRecord::Migration[8.1]
 
     create_table :accounts do |t|
       t.references :user, null: false, foreign_key: true
-      t.float :balance
+      t.float :balance # INTERVIEWER NOTE: Float for currency is a CRITICAL BUG
       t.timestamps
     end
   end
