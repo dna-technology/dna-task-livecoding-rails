@@ -29,13 +29,13 @@ RSpec.describe "Payments", type: :request do
     it "is vulnerable to race conditions (Double Spending)" do
       # Simulate two concurrent requests that both see the original balance
       # This is a conceptual test for the candidate to think about.
-      
+
       # Step 1: Request A starts
       # Step 2: Request B starts
       # Both see balance: 1000, both deduct 600.
       # Result should be 400, but in a race condition it could stay 400 while creating 2 payments (1200 spent).
-      
-      # We can't easily test true parallelism in a standard sequential RSpec without Threads, 
+
+      # We can't easily test true parallelism in a standard sequential RSpec without Threads,
       # but we can discuss this with the candidate.
     end
   end

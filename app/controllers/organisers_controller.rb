@@ -7,7 +7,7 @@ class OrganisersController < ApplicationController
   # EXPECTATION:
   # ------------
   # Use `Payment.includes(:user, :merchant).limit(50)` here.
-  
+
   def recent_payments
     @payments = Payment.order(created_at: :desc).limit(50)
     # Renders app/views/organisers/recent_payments.json.jbuilder

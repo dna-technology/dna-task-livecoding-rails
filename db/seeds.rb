@@ -23,7 +23,7 @@ carol.account.update!(balance: 5.0)
 puts "Seeding payments..."
 
 # Alice spends throughout the day — 30.0 + 20.0 = 50.0 spent, 50.0 remaining
-[30.0, 20.0].each_with_index do |amount, i|
+[ 30.0, 20.0 ].each_with_index do |amount, i|
   merchant = i == 0 ? food_stall : merch_stall
   alice.account.balance -= amount
   alice.account.save!
@@ -32,9 +32,9 @@ end
 
 # Bob spends across stalls — 10.0 + 10.0 + 5.0 = 25.0 spent, 0.0 remaining
 [
-  [10.0, merch_stall],
-  [10.0, food_stall],
-  [5.0, bar]
+  [ 10.0, merch_stall ],
+  [ 10.0, food_stall ],
+  [ 5.0, bar ]
 ].each do |amount, merchant|
   bob.account.balance -= amount
   bob.account.save!
@@ -44,7 +44,7 @@ end
 # Carol spends on food — 2.0 + 2.0 = 4.0 spent, 1.0 remaining
 2.times do
   amount = 2.0
-  merchant = [food_stall, bar].sample
+  merchant = [ food_stall, bar ].sample
   carol.account.balance -= amount
   carol.account.save!
   Payment.create!(user: carol, merchant: merchant, amount: amount)
