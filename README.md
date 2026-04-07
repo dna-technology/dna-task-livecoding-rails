@@ -19,7 +19,7 @@ docker-compose exec web bin/rails db:seed
 docker-compose exec web ./bin/setup_alice_scenario
 
 # Run tests
-docker-compose exec web bundle exec rspec
+docker-compose exec -e RAILS_ENV=test web bundle exec rspec
 
 # Enter Rails Console
 docker-compose exec web bin/rails console

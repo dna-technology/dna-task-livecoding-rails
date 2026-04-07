@@ -16,7 +16,7 @@ class PaymentsController < ApplicationController
 
       render json: payment, status: :created
     else
-      render json: { error: "Insufficient balance" }, status: :unprocessable_entity
+      render json: { error: "Insufficient balance" }, status: :unprocessable_content
     end
   rescue ActiveRecord::RecordNotFound => e
     render json: { error: e.message }, status: :not_found
