@@ -1,30 +1,72 @@
-# How should I start
+# Festival Payment API - Live Coding Task
 
-## Without Docker
-  1. install required dependencies by running the `bundle install` command
-  2. create the database using the `rake db:create` command
-  3. apply migrations to the database using the `rake db:migrate` command
-  4. run tests by executing the `bin/rails test -v` command
-  5. run the `bin/rails server` command to see whether the server starts
+Welcome! You are taking over a backend API for a Festival Payment System. The previous team left the project in a functional "MVP" state, but there are concerns regarding its reliability and performance as we scale.
 
-## Using Docker
-  1. build dev image: `docker build -f Dockerfile.dev -t dna-app-dev .`
-  2. run image: `docker run --name dna-app-dev -p 3000:3000 dna-app-dev`
-  3. run tests: `docker exec -it dna-app-dev rails test -v`
+## Your Goal
+Your task is to prepare the system for a high-traffic festival. We value the **"Rails Way"** (Fat Models, Thin Controllers) and expect clean, maintainable ActiveRecord-based solutions.
 
-# Scenario
-Let’s imagine you are working on API for backend of an online payment system.
-The actors are: users (festival participants), merchants, event organiser.
-We want to enable backoffice operations to the event organiser.
+## Getting Started
 
-Currently implemented:
-- Users can make a payment (with a virtual currency) to a specific merchant.
-- Our system has a payment log.
-- It means that information about payments are stored in a database.
-- This data can be used for reporting.
+### Option 1: Using Docker (Recommended)
+```bash
+# Build and start the app
+docker-compose up --build
 
-# Tasks
-## Task 1:
-Please make a code review of the currently implemented solution.
-## Task 2:
-Add new endpoint which give total income for payments for selected time period for given merchant.
+# In a separate terminal, seed the database
+docker-compose exec web bin/rails db:seed
+
+# Run the reproduction script
+docker-compose exec web ./bin/setup_alice_scenario
+
+# Run tests
+docker-compose exec web bundle exec rspec
+
+# Enter Rails Console
+docker-compose exec web bin/rails console
+```
+
+### Option 2: Local Ruby
+```bash
+# Ensure Ruby 3.4.3 is installed
+bundle install
+bin/rails db:prepare db:seed
+```
+
+## Tasks
+
+### 1. System Audit & Refactoring
+Perform a quick code review of the current implementation. Identify any potential issues regarding **data integrity**, **security**, or **architectural consistency**. Refactor the core flows to meet production standards.
+
+### 2. Performance Review
+The event organisers have complained that some endpoints are becoming sluggish. Identify the bottleneck in the recent payments report and propose/implement a fix.
+
+### 3. Bug Investigation
+A festival participant has filed the following support ticket:
+
+**Subject:** Cannot make a payment — "insufficient funds" error but I have credits
+
+> Hi, I've been buying food and drinks all day with no issues. Now I'm trying to pay for one last meal (5.90 credits) and the app is telling me I don't have enough funds. My balance clearly shows I should have exactly enough. Please help!
+> — Alice Johnson (alice@festival.com)
+
+**Your task:**
+1. Use the setup script to prepare Alice's data.
+2. Investigate why Alice's next 5.90 payment fails (reproduce and find the root cause).
+3. Propose and implement a fix.
+
+**Reproduction command:**
+```bash
+# First ensure the database is seeded
+bin/rails db:seed
+
+# Prepare the data for Alice
+./bin/setup_alice_scenario
+
+# Now enter the console to investigate and reproduce the final failing payment
+bin/rails console
+```
+
+### 4. New Feature: Merchant Income Report
+Add an endpoint that returns the total income for a specific `Merchant` within a given date range (`start_date` to `end_date`).
+
+---
+*Note: You are encouraged to use AI coding assistants to speed up your workflow.*

@@ -10,46 +10,39 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_02_27_101358) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_07_051621) do
   create_table "accounts", force: :cascade do |t|
-    t.string "account_id"
     t.float "balance"
-    t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
     t.index ["user_id"], name: "index_accounts_on_user_id"
   end
 
   create_table "merchants", force: :cascade do |t|
-    t.string "merchant_id"
-    t.string "name"
     t.datetime "created_at", null: false
+    t.string "name"
     t.datetime "updated_at", null: false
   end
 
   create_table "payments", force: :cascade do |t|
-    t.string "payment_id"
-    t.integer "user_id", null: false
-    t.integer "merchant_id", null: false
     t.float "amount"
     t.datetime "created_at", null: false
+    t.integer "merchant_id", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
     t.index ["merchant_id"], name: "index_payments_on_merchant_id"
     t.index ["user_id"], name: "index_payments_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "user_id"
-    t.string "full_name"
-    t.string "email"
-    t.integer "merchant_id", null: false
     t.datetime "created_at", null: false
+    t.string "email"
+    t.string "full_name"
     t.datetime "updated_at", null: false
-    t.index ["merchant_id"], name: "index_users_on_merchant_id"
   end
 
   add_foreign_key "accounts", "users"
   add_foreign_key "payments", "merchants"
   add_foreign_key "payments", "users"
-  add_foreign_key "users", "merchants"
 end

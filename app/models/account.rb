@@ -1,6 +1,7 @@
 class Account < ApplicationRecord
   belongs_to :user
 
-  validates :account_id, presence: true
-  validates :balance, presence: true
+  def has_funds?(amount)
+    balance >= amount
+  end
 end

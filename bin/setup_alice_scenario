@@ -1,0 +1,30 @@
+#!/usr/bin/env ruby
+require_relative "../config/environment"
+
+puts "--- Alice Johnson Support Case Setup ---"
+alice = User.find_by(email: "alice@festival.com")
+bar   = Merchant.find_by(name: "Bar")
+
+if alice.nil? || bar.nil?
+  puts "Error: Database not seeded correctly. Please run bin/rails db:seed first."
+  exit 1
+end
+
+# Reset Alice to 50.0 for consistent setup
+alice.account.update!(balance: 50.0)
+alice.payments.destroy_all
+
+# Perform the first 3 purchases of 14.70 as stated in the ticket
+3.times do
+  amount = 14.7
+  alice.account.balance -= amount
+  alice.account.save!
+  Payment.create!(user: alice, merchant: bar, amount: amount)
+end
+
+puts "SUCCESS: Alice scenario is set up."
+puts "Initial balance was 50.0. She performed 3 payments of 14.70."
+puts "Alice believes her balance should be exactly 5.90 now."
+puts ""
+puts "Your move: Check her current balance and try to process the final 5.90 payment."
+puts "----------------------------------------------------------------------------"

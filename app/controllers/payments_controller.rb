@@ -1,25 +1,26 @@
 class PaymentsController < ApplicationController
-  skip_before_action :verify_authenticity_token
-
   def create
-    begin
-      @payment = Payment.create_with_uuid(payment_params)
-    rescue InsufficientFundsError
-      render json: {
-        error: "User has insufficient funds"
-      }, status: :bad_request
+    user = User.find(params[:user_id])
+    merchant = Merchant.find(params[:merchant_id])
+    amount = params[:amount].to_f
+
+    if user.account.balance >= amount
+      user.account.balance -= amount
+      user.account.save!
+
+      payment = Payment.create!(
+        user: user,
+        merchant: merchant,
+        amount: amount
+      )
+
+      render json: payment, status: :created
     else
-      if @payment
-        render json: @payment.as_json
-      else
-        head :unprocessable_entity
-      end
+      render json: { error: "Insufficient balance" }, status: :unprocessable_entity
     end
-  end
-
-  private
-
-  def payment_params
-    params.permit(:amount, :user_id, :merchant_id)
+  rescue ActiveRecord::RecordNotFound => e
+    render json: { error: e.message }, status: :not_found
+  rescue StandardError => e
+    render json: { error: e.message }, status: :internal_server_error
   end
 end
