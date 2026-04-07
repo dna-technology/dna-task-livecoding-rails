@@ -1,30 +1,29 @@
 class PaymentsController < ApplicationController
   # INTERVIEWER NOTE (Bug 1 - Race Condition & Data Integrity):
   # -----------------------------------------------------------
-  # The logic below is prone to double-spending. Because there is no
-  # Database Transaction and no Pessimistic Locking (with_lock),
-  # two concurrent requests can read the same balance and proceed.
+  # The logic below is prone to double-spending and data loss. 
+  # It lacks a Database Transaction and Pessimistic Locking (with_lock).
   #
   # REFACTORING EXPECTATION (The Rails Way):
   # ----------------------------------------
-  # 1. Logic should be moved to the Model (e.g., User#pay! or Payment.process!).
+  # 1. Logic should be moved to the Model (e.g., User#pay! or Account#spend!).
   # 2. Wrap the balance deduction and payment creation in a Transaction.
-  # 3. Use `user.with_lock` to ensure the balance isn't modified mid-read.
-
+  # 3. Use `account.with_lock` to ensure the balance isn't modified mid-read.
+  
   def create
     user = User.find(params[:user_id])
     merchant = Merchant.find(params[:merchant_id])
-    amount = params[:amount_cents].to_i
+    amount = params[:amount].to_f
 
     # DANGER: Checking and updating balance without an atomic operation or lock.
-    if user.balance_cents >= amount
-      user.balance_cents -= amount
-      user.save! # This change is committed before the Payment is even created.
+    if user.account.balance >= amount
+      user.account.balance -= amount
+      user.account.save! # Committed before Payment creation. No rollback if next line fails.
 
       payment = Payment.create!(
         user: user,
         merchant: merchant,
-        amount_cents: amount
+        amount: amount
       )
 
       render json: payment, status: :created

@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_31_100410) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_07_051621) do
+  create_table "accounts", force: :cascade do |t|
+    t.float "balance"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["user_id"], name: "index_accounts_on_user_id"
+  end
+
   create_table "merchants", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "name"
@@ -18,7 +26,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_31_100410) do
   end
 
   create_table "payments", force: :cascade do |t|
-    t.integer "amount_cents"
+    t.float "amount"
     t.datetime "created_at", null: false
     t.integer "merchant_id", null: false
     t.datetime "updated_at", null: false
@@ -28,12 +36,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_31_100410) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.integer "balance_cents"
     t.datetime "created_at", null: false
-    t.string "name"
+    t.string "email"
+    t.string "full_name"
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "accounts", "users"
   add_foreign_key "payments", "merchants"
   add_foreign_key "payments", "users"
 end
