@@ -5,6 +5,33 @@ Welcome! You are taking over a backend API for a Festival Payment System. The pr
 ## Your Goal
 Your task is to prepare the system for a high-traffic festival. We value the **"Rails Way"** (Fat Models, Thin Controllers) and expect clean, maintainable ActiveRecord-based solutions.
 
+## Getting Started
+
+### Option 1: Using Docker (Recommended)
+```bash
+# Build and start the app
+docker-compose up --build
+
+# In a separate terminal, seed the database
+docker-compose exec web bin/rails db:seed
+
+# Run the reproduction script
+docker-compose exec web ./bin/setup_alice_scenario
+
+# Run tests
+docker-compose exec web bundle exec rspec
+
+# Enter Rails Console
+docker-compose exec web bin/rails console
+```
+
+### Option 2: Local Ruby
+```bash
+# Ensure Ruby 3.4.3 is installed
+bundle install
+bin/rails db:prepare db:seed
+```
+
 ## Tasks
 
 ### 1. System Audit & Refactoring
