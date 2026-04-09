@@ -13,7 +13,7 @@ Your task is to prepare the system for a high-traffic festival. We value the **"
 docker-compose up --build
 
 # In a separate terminal, seed the database
-docker-compose exec web bin/rails db:seed
+docker-compose exec web bin/rails db:prepare db:seed
 
 # Run the reproduction script
 docker-compose exec web ./bin/setup_alice_scenario
